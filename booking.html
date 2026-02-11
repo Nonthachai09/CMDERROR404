@@ -176,6 +176,9 @@
                 <label>เบอร์โทร</label>
                 <input type="text" id="phone">
 
+                <label>จำนวนผู้เข้าร่วม</label>
+                <input type="number" id="attendees" min="1">
+
                 <label>หมายเหตุ</label>
                 <textarea rows="3" id="note"></textarea>
 
@@ -194,6 +197,13 @@
         const roomNo = params.get("room")
         document.getElementById("roomNo").innerText = roomNo
 
+        const roomCapacity = {
+            "101": 35,
+            "102": 9,
+            "103": 16,
+            "104": 12,
+            "105": 10
+        }
 
         function confirmBooking() {
 
@@ -203,14 +213,22 @@
             const name = document.getElementById("name").value
             const phone = document.getElementById("phone").value
             const note = document.getElementById("note").value
+            const attendees = parseInt(document.getElementById("attendees").value)
 
-            if (!date || !start || !end || !name) {
+            if (!date || !start || !end || !name || !attendees) {
                 Swal.fire("กรอกข้อมูลให้ครบก่อน", "", "warning")
                 return
             }
 
             if (start >= end) {
                 Swal.fire("เวลาไม่ถูกต้อง", "เวลาเริ่มต้องน้อยกว่าเวลาสิ้นสุด", "error")
+                return
+            }
+
+            if (attendees > roomCapacity[roomNo]) {
+                Swal.fire("จำนวนคนเกินความจุห้อง",
+                    `ห้องนี้รองรับได้สูงสุด ${roomCapacity[roomNo]} คน`,
+                    "error")
                 return
             }
 
@@ -244,12 +262,13 @@
 
                     bookings.push({
                         room: roomNo,
-                        date: date,
-                        start: start,
-                        end: end,
-                        name: name,
-                        phone: phone,
-                        note: note
+                        date,
+                        start,
+                        end,
+                        name,
+                        phone,
+                        note,
+                        attendees
                     })
 
                     localStorage.setItem("bookings", JSON.stringify(bookings))
@@ -267,6 +286,7 @@
         }
 
     </script>
+
 
 
 </body>
