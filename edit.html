@@ -189,13 +189,13 @@
                     <label>เบอร์โทร</label>
                     <input type="text">
 
-                    <label>จำนวนผู้เข้าใช้</label>
-                    <input type="number" id="people" min="1">
+                    <label>จำนวนผู้เข้าร่วม</label>
+                    <input type="number" id="attendees" min="1">
 
                     <label>หมายเหตุ</label>
                     <textarea rows="3"></textarea>
 
-                    <button onclick="saveEdit()">บันทึกการแก้ไข</button>
+                    <button class="btn-submit" onclick="editBooking()">แก้ไขการจอง</button>
                     <button class="btn-cancel" onclick="cancelBooking()">ยกเลิกการจอง</button>
                 </div>
             </div>
@@ -204,10 +204,20 @@
 
     </div>
 
+
+
     <script>
 
+        const roomCapacity = {
+            "101": 35,
+            "102": 9,
+            "103": 16,
+            "104": 12,
+            "105": 10
+        }
+
         function toggleMenu() {
-            document.getElementById("menu").classList.toggle("show")
+            document.getElementById("attendees").value = booking.attendees
         }
 
         const params = new URLSearchParams(window.location.search)
@@ -231,6 +241,14 @@
         inputs[6].value = booking.note
 
         function editBooking() {
+
+            const attendees = parseInt(document.getElementById("attendees").value)
+            if (attendees > roomCapacity[booking.room]) {
+                Swal.fire("จำนวนคนเกินความจุห้อง",
+                    `ห้องนี้รองรับได้สูงสุด ${roomCapacity[booking.room]} คน`,
+                    "error")
+                return
+            }
 
             const date = inputs[1].value
             const start = inputs[2].value
@@ -313,39 +331,15 @@
             })
         }
 
-        const roomCapacity = {
-            "101": 35,
-            "102": 9,
-            "103": 16,
-            "104": 12,
-            "105": 10
-        }
-
-        const peopleInput = document.createElement("input")
-        peopleInput.type = "number"
-        peopleInput.placeholder = "จำนวนผู้เข้าร่วม"
-        peopleInput.id = "people"
-        peopleInput.min = 1
-
-        document.querySelector(".booking-card textarea").before(peopleInput)
-
-        const oldEditBooking = editBooking
-
-        editBooking = function () {
-
-            const people = parseInt(document.getElementById("people").value)
-
-            if (!people || people <= 0) {
-                Swal.fire("กรอกจำนวนผู้เข้าร่วม", "", "warning")
-                return
-            }
-
-            if (people > roomCapacity[booking.room]) {
-                Swal.fire("จำนวนคนเกินความจุห้อง", "", "error")
-                return
-            }
-
-            oldEditBooking()
+        bookings[id] = {
+            room: booking.room,
+            date,
+            start,
+            end,
+            name,
+            phone,
+            note,
+            attendees
         }
 
 
