@@ -217,7 +217,7 @@
         }
 
         function toggleMenu() {
-            document.getElementById("attendees").value = booking.attendees
+            document.getElementById("menu").classList.toggle("show")
         }
 
         const params = new URLSearchParams(window.location.search)
@@ -239,6 +239,8 @@
         inputs[4].value = booking.name
         inputs[5].value = booking.phone
         inputs[6].value = booking.note
+
+        document.getElementById("attendees").value = booking.attendees || ""
 
         function editBooking() {
 
@@ -299,7 +301,8 @@
                         end,
                         name,
                         phone,
-                        note
+                        note,
+                        attendees
                     }
 
                     localStorage.setItem("bookings", JSON.stringify(bookings))
@@ -330,18 +333,6 @@
                 }
             })
         }
-
-        bookings[id] = {
-            room: booking.room,
-            date,
-            start,
-            end,
-            name,
-            phone,
-            note,
-            attendees
-        }
-
 
     </script>
 
