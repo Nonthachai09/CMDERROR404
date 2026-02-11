@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <title>รายการการจอง</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="page">
+
+        <div class="navbar">
+            <div class="nav-title">ระบบจองห้องประชุม</div>
+            <div class="nav-toggler" onclick="toggleMenu()">☰</div>
+        </div>
+
+        <div class="collapse" id="menu">
+            <div class="menu-content">
+                <a href="home.html">หน้าแรก</a>
+                <a href="H2.html">หน้าจอง</a>
+                <a href="h3.html">ประวัติการจอง</a>
+            </div>
+        </div>
+
+        <div class="booking-list">
+            <h2>รายการการจอง</h2>
+            <div id="bookingContainer"></div>
+        </div>
+
+    </div>
+
+    <script>
+
+        function toggleMenu() {
+            document.getElementById("menu").classList.toggle("show")
+        }
+
+        function loadBookings() {
+
+            const container = document.getElementById("bookingContainer")
+            const bookings = JSON.parse(localStorage.getItem("bookings")) || []
+
+            container.innerHTML = ""
+
+            if (bookings.length === 0) {
+                container.innerHTML = "<p>ยังไม่มีรายการจอง</p>"
+                return
+            }
+
+            bookings.forEach((b, index) => {
+
+                container.innerHTML += `
+                        <div class="booking-card">
+                            <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4">
+                            <div class="booking-info">
+                                <div class="booking-id">ลำดับที่: ${index + 1}</div>
+                                <div class="room-name">ROOM ${b.room}</div>
+                                <div>วันจอง: ${b.date}</div>
+                                <div>เวลา: ${b.start} - ${b.end}</div>
+                                <div>ชื่อ: ${b.name}</div>
+
+                                <div class="booking-actions">
+                                    <a href="edit.html?id=${index}">
+                                        <button class="btn-edit">แก้ไข</button>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+        `
+            })
+        }
+
+        window.onload = loadBookings
+
+    </script>
+
+
+</body>
+
+</html>

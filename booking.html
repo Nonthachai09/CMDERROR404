@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <title>จองห้องประชุม</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif
+        }
+
+        body {
+            min-height: 100vh;
+            background: #eee
+        }
+
+        .page {
+            max-width: 1920px;
+            margin: auto;
+            background: #fff;
+            display: flex;
+            flex-direction: column
+        }
+
+        .navbar {
+            height: 60px;
+            background: #000;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            padding: 0 30px
+        }
+
+        .nav-title {
+            font-size: 18px;
+            font-weight: bold
+        }
+
+        .nav-toggler {
+            margin-left: auto;
+            font-size: 26px;
+            cursor: pointer;
+            transition: transform .3s
+        }
+
+        .nav-toggler:hover {
+            transform: scale(1.2)
+        }
+
+        .collapse {
+            max-height: 0;
+            overflow: hidden;
+            background: #111;
+            transition: max-height .4s ease
+        }
+
+        .collapse.show {
+            max-height: 200px
+        }
+
+        .menu-content {
+            display: flex;
+            flex-direction: column
+        }
+
+        .menu-content a {
+            padding: 16px 30px;
+            color: #fff;
+            text-decoration: none;
+            border-bottom: 1px solid #333;
+            transition: background .3s, padding-left .3s
+        }
+
+        .menu-content a:hover {
+            background: #222;
+            padding-left: 45px
+        }
+
+        .booking-wrapper {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px
+        }
+
+        .booking-card {
+            width: 380px;
+            background: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, .15)
+        }
+
+        .booking-card h3 {
+            text-align: center;
+            margin-bottom: 15px
+        }
+
+        .booking-card label {
+            font-size: 14px
+        }
+
+        .booking-card input,
+        .booking-card textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 6px 0 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 10px;
+            background: #32cd32;
+            border: none;
+            color: #fff;
+            font-size: 15px;
+            cursor: pointer;
+            margin-bottom: 8px
+        }
+
+        .btn-cancel {
+            width: 100%;
+            padding: 10px;
+            background: #777;
+            border: none;
+            color: #fff;
+            font-size: 15px;
+            cursor: pointer
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="page">
+
+        <div class="navbar">
+            <div class="nav-title">ระบบจองห้องประชุม</div>
+            <div class="nav-toggler" onclick="toggleMenu()">☰</div>
+        </div>
+
+        <div class="collapse" id="menu">
+            <div class="menu-content">
+                <a href="home.html">หน้าแรก</a>
+                <a href="H2.html">หน้าจอง</a>
+                <a href="h3.html">ประวัติการจอง</a>
+            </div>
+        </div>
+
+        <div class="booking-wrapper">
+            <div class="booking-card">
+                <h3>จอง ห้องประชุม Room <span id="roomNo"></span></h3>
+
+                <label>สถานะห้อง</label>
+                <input type="text" value="ว่าง" readonly>
+
+                <label>วัน / เดือน / ปี</label>
+                <input type="date" id="date">
+
+                <label>เวลาเริ่ม</label>
+                <input type="time" id="start">
+
+                <label>เวลาสิ้นสุด</label>
+                <input type="time" id="end">
+
+                <label>ชื่อ - นามสกุล</label>
+                <input type="text" id="name">
+
+                <label>เบอร์โทร</label>
+                <input type="text" id="phone">
+
+                <label>หมายเหตุ</label>
+                <textarea rows="3" id="note"></textarea>
+
+                <button class="btn-submit" onclick="confirmBooking()">ยืนยันการจอง</button>
+                <button class="btn-cancel" onclick="history.back()">ย้อนกลับ</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+
+        const params = new URLSearchParams(window.location.search)
+        const roomNo = params.get("room")
+        document.getElementById("roomNo").innerText = roomNo
+
+
+        function confirmBooking() {
+
+            const date = document.getElementById("date").value
+            const start = document.getElementById("start").value
+            const end = document.getElementById("end").value
+            const name = document.getElementById("name").value
+            const phone = document.getElementById("phone").value
+            const note = document.getElementById("note").value
+
+            if (!date || !start || !end || !name) {
+                Swal.fire("กรอกข้อมูลให้ครบก่อน", "", "warning")
+                return
+            }
+
+            if (start >= end) {
+                Swal.fire("เวลาไม่ถูกต้อง", "เวลาเริ่มต้องน้อยกว่าเวลาสิ้นสุด", "error")
+                return
+            }
+
+            let bookings = JSON.parse(localStorage.getItem("bookings")) || []
+
+            const duplicate = bookings.find(b =>
+                b.room === roomNo &&
+                b.date === date &&
+                (
+                    (start >= b.start && start < b.end) ||
+                    (end > b.start && end <= b.end) ||
+                    (start <= b.start && end >= b.end)
+                )
+            )
+
+            if (duplicate) {
+                Swal.fire("ช่วงเวลานี้ถูกจองแล้ว", "กรุณาเลือกเวลาใหม่", "error")
+                return
+            }
+
+            Swal.fire({
+                title: 'ยืนยันการจอง?',
+                text: `${date} เวลา ${start} - ${end}`,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'ยืนยัน',
+                cancelButtonText: 'ยกเลิก'
+            }).then((result) => {
+
+                if (result.isConfirmed) {
+
+                    bookings.push({
+                        room: roomNo,
+                        date: date,
+                        start: start,
+                        end: end,
+                        name: name,
+                        phone: phone,
+                        note: note
+                    })
+
+                    localStorage.setItem("bookings", JSON.stringify(bookings))
+
+                    Swal.fire({
+                        title: 'จองสำเร็จ!',
+                        icon: 'success',
+                        timer: 1500,
+                        showConfirmButton: false
+                    }).then(() => {
+                        window.location.href = "H2.html"
+                    })
+                }
+            })
+        }
+
+    </script>
+
+
+</body>
+
+</html>

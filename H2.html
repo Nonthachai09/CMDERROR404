@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ระบบจองห้องประชุม</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="page">
+
+        <div class="navbar">
+            <div class="nav-title">ระบบจองห้องประชุม</div>
+            <div class="nav-toggler" onclick="toggleMenu()">☰</div>
+        </div>
+
+        <div class="collapse" id="menu">
+            <div class="menu-content">
+                <a href="home.html">หน้าแรก</a>
+                <a href="H2.html">หน้าจอง</a>
+                <a href="h3.html">ประวัติการจอง</a>
+            </div>
+        </div>
+
+        <div class="hero"></div>
+
+        <div class="search">
+            <input type="date" id="searchDate">
+            <input type="time" id="searchTime">
+
+            <select id="searchStatus">
+                <option value="">สถานะทั้งหมด</option>
+                <option value="available">ว่าง</option>
+                <option value="booked">ไม่ว่าง</option>
+                <option value="maintenance">ปิดปรับปรุง</option>
+            </select>
+
+            <input type="text" id="searchName" placeholder="ค้นหาชื่อห้อง">
+            <button onclick="searchRooms()">Search</button>
+        </div>
+
+        <div class="rooms">
+
+            <div class="room" data-name="room 101" data-status="available">
+                <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4">
+                <div class="room-info">
+                    <b>ROOM 101</b><br>
+                    จำนวน : 35 คน<br>
+                    อุปกรณ์ : โปรเจคเตอร์ 1 เครื่อง ไมค์ 5 ตัว<br>
+                    <span class="status available">สถานะห้อง : ว่าง</span>
+                </div>
+                <a href="booking.html?room=101">
+                    <button>จอง</button>
+                </a>
+            </div>
+
+            <div class="room" data-name="room 102" data-status="booked">
+                <img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72">
+                <div class="room-info">
+                    <b>ROOM 102</b><br>
+                    จำนวน : 9 คน<br>
+                    อุปกรณ์ : ทีวี 1 เครื่อง ไมค์ 3 ตัว<br>
+                    <span class="status booked">สถานะห้อง : ไม่ว่าง</span>
+                </div>
+                <a href="#">
+                    <button disabled>จอง</button>
+                </a>
+            </div>
+
+            <div class="room" data-name="room 103" data-status="maintenance">
+                <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4">
+                <div class="room-info">
+                    <b>ROOM 103</b><br>
+                    จำนวน : 16 คน<br>
+                    อุปกรณ์ : ทีวี 1 เครื่อง ไมค์ 3 ตัว ลำโพง 5 ตัว โปรเจคเตอร์ 1 ตัว<br>
+                    <span class="status booked">สถานะห้อง : ปิดปรับปรุง</span>
+                </div>
+                <a href="#">
+                    <button disabled>จอง</button>
+                </a>
+            </div>
+
+            <div class="room" data-name="room 104" data-status="available">
+                <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4">
+                <div class="room-info">
+                    <b>ROOM 104</b><br>
+                    จำนวน : 12 คน<br>
+                    อุปกรณ์ : ทีวี 1 เครื่อง ไมค์ 3 ตัว Macbook 1 เครื่อง<br>
+                    <span class="status available">สถานะห้อง : ว่าง</span>
+                </div>
+                <a href="booking.html?room=104">
+                    <button>จอง</button>
+                </a>
+            </div>
+
+            <div class="room" data-name="room 105" data-status="available">
+                <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4">
+                <div class="room-info">
+                    <b>ROOM 105</b><br>
+                    จำนวน : 10 คน<br>
+                    อุปกรณ์ : ไมค์ 3 ตัว<br>
+                    <span class="status available">สถานะห้อง : ว่าง</span>
+                </div>
+                <a href="booking.html?room=105">
+                    <button>จอง</button>
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        function toggleMenu() {
+            document.getElementById("menu").classList.toggle("show")
+        }
+
+        function loadRoomStatus() {
+
+            const bookings = JSON.parse(localStorage.getItem("bookings")) || []
+            const selectedDate = document.getElementById("searchDate").value
+
+            document.querySelectorAll(".room").forEach(room => {
+
+                const roomNo = room.dataset.name.replace("room ", "")
+                const statusSpan = room.querySelector(".status")
+                const button = room.querySelector("button")
+                const baseStatus = room.dataset.status
+
+                if (baseStatus === "maintenance") {
+                    statusSpan.innerHTML = "สถานะห้อง : ปิดปรับปรุง"
+                    statusSpan.classList.remove("available", "booked")
+                    statusSpan.classList.add("booked")
+                    if (button) button.disabled = true
+                    return
+                }
+
+                if (button) button.disabled = false
+
+                const roomBookings = bookings.filter(b =>
+                    b.room === roomNo &&
+                    (selectedDate ? b.date === selectedDate : true)
+                )
+
+                if (roomBookings.length > 0) {
+
+                    let times = roomBookings
+                        .map(b => `${b.date} ${b.start} - ${b.end}`)
+                        .join("<br>")
+
+                    statusSpan.innerHTML =
+                        `สถานะห้อง : <br>ไม่ว่าง ${times}`
+
+                    statusSpan.classList.remove("available")
+                    statusSpan.classList.add("booked")
+
+                } else {
+
+                    statusSpan.innerHTML = "สถานะห้อง : ว่าง"
+                    statusSpan.classList.remove("booked")
+                    statusSpan.classList.add("available")
+                }
+
+            })
+        }
+
+        function searchRooms() {
+
+            const name = document.getElementById("searchName").value.toLowerCase()
+            const status = document.getElementById("searchStatus").value
+
+            document.querySelectorAll(".room").forEach(room => {
+
+                const roomName = room.dataset.name.toLowerCase()
+                const baseStatus = room.dataset.status
+                const statusElement = room.querySelector(".status")
+
+                let currentStatus = baseStatus === "maintenance"
+                    ? "maintenance"
+                    : (statusElement.classList.contains("booked") ? "booked" : "available")
+
+                let show = true
+
+                if (name && !roomName.includes(name)) show = false
+                if (status && currentStatus !== status) show = false
+
+                room.style.display = show ? "" : "none"
+            })
+        }
+
+        window.onload = loadRoomStatus
+
+        document.getElementById("searchDate")
+            .addEventListener("change", loadRoomStatus)
+
+    </script>
+
+</body>
+
+</html>

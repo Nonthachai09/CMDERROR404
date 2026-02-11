@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Home | ระบบจองห้องประชุม</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="page">
+
+        <div class="navbar">
+            <div class="nav-title">ระบบจองห้องประชุม</div>
+            <div class="nav-toggler" onclick="toggleMenu()">☰</div>
+        </div>
+
+        <div class="collapse" id="menu">
+            <div class="menu-content">
+                <a href="home.html">หน้าแรก</a>
+                <a href="H2.html">หน้าจอง</a>
+                <a href="h3.html">ประวัติการจอง</a>
+            </div>
+        </div>
+
+        <div class="hero"></div>
+
+        <div class="content">
+            <h2>Welcome</h2>
+            <p>
+                ระบบจองห้องประชุมสำหรับองค์กร รองรับการจองล่วงหน้า
+                ตรวจสอบสถานะห้อง และจัดการตารางการประชุมได้อย่างสะดวกและรวดเร็ว
+            </p>
+
+            <div class="gallery">
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36">
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">ระบบจองห้องประชุม</div>
+                <p>ช่วยให้คุณสามารถจัดการการประชุมได้อย่างเป็นระบบ ลดความซ้ำซ้อน และเพิ่มประสิทธิภาพในการทำงาน</p>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Features</div>
+
+                <div class="features">
+                    <div class="feature">Room Booking</div>
+                    <div class="feature">Room Status</div>
+                    <div class="feature">History Booking</div>
+                    <div class="feature">User Management</div>
+                    <div class="feature">Real-time Update</div>
+                    <div class="feature">Calendar View</div>
+                    <div class="feature">Admin Control</div>
+                    <div class="feature">Responsive Design</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div>
+                <h4>ระบบจองห้องประชุม</h4>
+                <p>© 2026 All rights reserved</p>
+            </div>
+
+            <div>
+                <h4>Menu</h4>
+                <ul>
+                    <li>Home</li>
+                    <li>Booking</li>
+                    <li>History</li>
+                </ul>
+            </div>
+
+            <div>
+                <h4>Contact</h4>
+                <ul>
+                    <li>Email: admin@meeting.com</li>
+                    <li>Tel: 02-xxx-xxxx</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function toggleMenu() {
+            document.getElementById("menu").classList.toggle("show");
+        }
+    </script>
+
+</body>
+
+</html>
