@@ -189,10 +189,13 @@
                     <label>เบอร์โทร</label>
                     <input type="text">
 
+                    <label>จำนวนผู้เข้าใช้</label>
+                    <input type="number" id="people" min="1">
+
                     <label>หมายเหตุ</label>
                     <textarea rows="3"></textarea>
 
-                    <button class="btn-submit" onclick="editBooking()">แก้ไขการจอง</button>
+                    <button onclick="saveEdit()">บันทึกการแก้ไข</button>
                     <button class="btn-cancel" onclick="cancelBooking()">ยกเลิกการจอง</button>
                 </div>
             </div>
@@ -309,6 +312,42 @@
                 }
             })
         }
+
+        const roomCapacity = {
+            "101": 35,
+            "102": 9,
+            "103": 16,
+            "104": 12,
+            "105": 10
+        }
+
+        const peopleInput = document.createElement("input")
+        peopleInput.type = "number"
+        peopleInput.placeholder = "จำนวนผู้เข้าร่วม"
+        peopleInput.id = "people"
+        peopleInput.min = 1
+
+        document.querySelector(".booking-card textarea").before(peopleInput)
+
+        const oldEditBooking = editBooking
+
+        editBooking = function () {
+
+            const people = parseInt(document.getElementById("people").value)
+
+            if (!people || people <= 0) {
+                Swal.fire("กรอกจำนวนผู้เข้าร่วม", "", "warning")
+                return
+            }
+
+            if (people > roomCapacity[booking.room]) {
+                Swal.fire("จำนวนคนเกินความจุห้อง", "", "error")
+                return
+            }
+
+            oldEditBooking()
+        }
+
 
     </script>
 
