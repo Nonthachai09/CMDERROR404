@@ -3,80 +3,303 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>รายการการจอง</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>รายการการจอง | ระบบจองห้องประชุม</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Kanit', sans-serif;
+        }
+
+        body {
+            background-color: #e9ecef;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            background-color: #fff;
+            color: #000;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-right-icons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav-item-icon {
+            font-size: 1.3rem;
+            color: #000;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .collapse {
+            display: none;
+            background: #fff;
+            width: 100%;
+            border-bottom: 1px solid #eee;
+        }
+
+        .collapse.show {
+            display: block;
+        }
+
+        .menu-content {
+            display: flex;
+            flex-direction: column;
+            padding: 15px 5%;
+            gap: 15px;
+        }
+
+        .menu-content a {
+            text-decoration: none;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .main-container {
+            flex: 1;
+            padding: 40px 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 500;
+            font-size: 1.5rem;
+            color: #000;
+        }
+
+        .booking-card {
+            background: white;
+            border-radius: 12px;
+            display: flex;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .booking-card img {
+            width: 280px;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .booking-info {
+            flex: 1;
+            padding: 20px 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .header-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 5px;
+        }
+
+        .ref-code {
+            color: #ff0000;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .payment-status {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            border: 1px solid #2e7d32;
+        }
+
+        .room-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 5px;
+        }
+
+        .details-text {
+            font-size: 0.85rem;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .btn-edit-container {
+            display: flex;
+            align-items: center;
+            padding-right: 25px;
+        }
+
+        .btn-edit {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .footer {
+            background: white;
+            padding: 50px 10% 30px;
+            border-top: 1px solid #ddd;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+        }
+
+        .footer-brand h2 {
+            margin-bottom: 10px;
+        }
+
+        .footer-column ul {
+            list-style: none;
+            margin-top: 15px;
+        }
+
+        .footer-column ul li {
+            font-size: 0.85rem;
+            color: #777;
+            margin-bottom: 8px;
+        }
+
+        @media (max-width: 850px) {
+            .booking-card {
+                flex-direction: column;
+            }
+
+            .booking-card img {
+                width: 100%;
+                height: 200px;
+            }
+
+            .btn-edit-container {
+                padding: 0 20px 20px;
+                justify-content: flex-end;
+            }
+
+            .footer {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-    <div class="page">
-
-        <div class="navbar">
-            <div class="nav-title">ระบบจองห้องประชุม</div>
-            <div class="nav-toggler" onclick="toggleMenu()">☰</div>
+    <nav class="navbar">
+        <div class="nav-title">ระบบจองห้องประชุม</div>
+        <div class="nav-right-icons">
+            <i class="fa-solid fa-list-ul nav-item-icon" onclick="toggleMenu()"></i>
+            <a href="login.html" class="nav-item-icon"><i class="fa-regular fa-circle-user"></i></a>
         </div>
+    </nav>
 
-        <div class="collapse" id="menu">
-            <div class="menu-content">
-                <a href="index.html">หน้าแรก</a>
-                <a href="H2.html">หน้าจอง</a>
-                <a href="h3.html">ประวัติการจอง</a>
-            </div>
+    <div class="collapse" id="menu">
+        <div class="menu-content">
+            <a href="index.html"><i class="fa-solid fa-house"></i> หน้าแรก</a>
+            <a href="H2.html"><i class="fa-solid fa-calendar-check"></i> หน้าจอง</a>
+            <a href="h3.html"><i class="fa-solid fa-clock-rotate-left"></i> ประวัติการจอง</a>
         </div>
-
-        <div class="booking-list">
-            <h2>รายการการจอง</h2>
-            <div id="bookingContainer"></div>
-        </div>
-
     </div>
 
-    <script>
+    <div class="main-container">
+        <h2 class="page-title">รายการการจอง</h2>
+        <div id="bookingContainer"></div>
+    </div>
 
-        function toggleMenu() {
-            document.getElementById("menu").classList.toggle("show")
-        }
+    <footer class="footer">
+        <div class="footer-brand">
+            <h2>Nonedly</h2>
+            <p>ระบบจองห้องประชุมออนไลน์จัดการทรัพยากรได้อย่างมีประสิทธิภาพ</p>
+        </div>
+        <div class="footer-column">
+            <h4>Platform</h4>
+            <ul>
+                <li>Features</li>
+                <li>Team</li>
+            </ul>
+        </div>
+        <div class="footer-column">
+            <h4>Learn More</h4>
+            <ul>
+                <li>Blog</li>
+                <li>Stories</li>
+            </ul>
+        </div>
+        <div class="footer-column">
+            <h4>Support</h4>
+            <ul>
+                <li>Contact</li>
+                <li>Legal</li>
+            </ul>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() { document.getElementById("menu").classList.toggle("show"); }
 
         function loadBookings() {
-
-            const container = document.getElementById("bookingContainer")
-            const bookings = JSON.parse(localStorage.getItem("bookings")) || []
-
-            container.innerHTML = ""
+            const container = document.getElementById("bookingContainer");
+            const bookings = JSON.parse(localStorage.getItem("bookings")) || [];
 
             if (bookings.length === 0) {
-                container.innerHTML = "<p>ยังไม่มีรายการจอง</p>"
-                return
+                container.innerHTML = "<p style='text-align:center; padding:50px; color:#888;'>ยังไม่มีข้อมูลการจองในระบบ</p>";
+                return;
             }
 
-            bookings.forEach((b, index) => {
-
-                container.innerHTML += `
-                        <div class="booking-card">
-                            <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4">
-                            <div class="booking-info">
-                                <div class="booking-id">ลำดับที่: ${index + 1}</div>
-                                <div class="room-name">ROOM ${b.room}</div>
-                                <div>วันจอง: ${b.date}</div>
-                                <div>เวลา: ${b.start} - ${b.end}</div>
-                                <div>ชื่อ: ${b.name}</div>
-
-                                <div class="booking-actions">
-                                    <a href="edit.html?id=${index}">
-                                        <button class="btn-edit">แก้ไข</button>
-                                    </a>
-                                </div>
-                            </div>
+            container.innerHTML = bookings.map((b, index) => `
+                <div class="booking-card">
+                    <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=500">
+                    <div class="booking-info">
+                        <div class="header-info">
+                            <div class="ref-code">รหัสอ้างอิง AB10101110</div>
+                            <span class="payment-status">ชำระเงินแล้ว</span>
                         </div>
-        `
-            })
+                        <div class="room-name">ROOM ${b.room}</div>
+                        <div class="details-text">
+                            จำนวน : ${b.attendees || 0} คน<br>
+                            วันที่จอง : ${b.date}<br>
+                            เวลา : ${b.start} - ${b.end} น.<br>
+                            ชื่อผู้จอง : ${b.name}
+                        </div>
+                    </div>
+                    <div class="btn-edit-container">
+                        <a href="edit.html?id=${index}" class="btn-edit">แก้ไข</a>
+                    </div>
+                </div>
+            `).reverse().join('');
         }
-
-        window.onload = loadBookings
-
+        window.onload = loadBookings;
     </script>
-
-
 </body>
 
 </html>

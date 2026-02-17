@@ -19,75 +19,28 @@ body {
 }
 
 .navbar {
+    height: 60px;
+    background: #000;
+    color: #fff;
     display: flex;
-    justify-content: space-between;
-    /* แยกซ้าย-ขวา */
     align-items: center;
-    padding: 15px 5%;
-    background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-    /* เงาบางๆ ให้ดูสะอาดตา */
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+    padding: 0 30px
 }
 
 .nav-title {
-    font-weight: 600;
-    font-size: 1.1rem;
-    color: #333;
+    font-size: 18px;
+    font-weight: bold
 }
 
-.nav-icons {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    /* ระยะห่างระหว่างไอคอน */
-}
-
-.nav-toggler,
-.nav-profile {
-    font-size: 1.5rem;
+.nav-toggler {
+    margin-left: auto;
+    font-size: 26px;
     cursor: pointer;
-    color: #333;
-    display: flex;
-    align-items: center;
-    transition: color 0.3s;
+    transition: transform .3s
 }
 
-.nav-toggler:hover,
-.nav-profile:hover {
-    color: #666;
-}
-
-/* ปรับแต่งส่วน Dropdown menu (Collapse) ให้ดูดีขึ้น */
-.collapse {
-    display: none;
-    background: #fff;
-    border-top: 1px solid #eee;
-    position: absolute;
-    width: 100%;
-    left: 0;
-    top: 60px;
-    /* ให้ต่อท้าย navbar */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.collapse.show {
-    display: block;
-}
-
-.menu-content {
-    display: flex;
-    flex-direction: column;
-    padding: 10px 5%;
-}
-
-.menu-content a {
-    padding: 12px 0;
-    text-decoration: none;
-    color: #333;
-    border-bottom: 1px solid #f9f9f9;
+.nav-toggler:hover {
+    transform: scale(1.2)
 }
 
 .collapse {

@@ -3,250 +3,169 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>จองห้องประชุม</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>จองห้องประชุม | ระบบจองห้องประชุม</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: Arial, sans-serif
+            font-family: 'Kanit', sans-serif;
         }
 
         body {
-            min-height: 100vh;
-            background: #eee
-        }
-
-        .page {
-            max-width: 1920px;
-            margin: auto;
-            background: #fff;
-            display: flex;
-            flex-direction: column
+            background-color: #f5f5f5;
+            padding-bottom: 50px;
         }
 
         .navbar {
-            height: 60px;
-            background: #000;
-            color: #fff;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            padding: 0 30px
-        }
-
-        .nav-title {
-            font-size: 18px;
-            font-weight: bold
-        }
-
-        .nav-toggler {
-            margin-left: auto;
-            font-size: 26px;
-            cursor: pointer;
-            transition: transform .3s
-        }
-
-        .nav-toggler:hover {
-            transform: scale(1.2)
-        }
-
-        .collapse {
-            max-height: 0;
-            overflow: hidden;
-            background: #111;
-            transition: max-height .4s ease
-        }
-
-        .collapse.show {
-            max-height: 200px
-        }
-
-        .menu-content {
-            display: flex;
-            flex-direction: column
-        }
-
-        .menu-content a {
-            padding: 16px 30px;
-            color: #fff;
-            text-decoration: none;
-            border-bottom: 1px solid #333;
-            transition: background .3s, padding-left .3s
-        }
-
-        .menu-content a:hover {
-            background: #222;
-            padding-left: 45px
+            padding: 15px 5%;
+            background: white;
+            border-bottom: 1px solid #eee;
         }
 
         .booking-wrapper {
-            flex: 1;
             display: flex;
             justify-content: center;
-            align-items: flex-start;
-            padding: 40px
+            padding: 40px 20px;
         }
 
         .booking-card {
-            width: 380px;
-            background: #fff;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, .15)
+            width: 100%;
+            max-width: 450px;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
         .booking-card h3 {
             text-align: center;
-            margin-bottom: 15px
+            margin-bottom: 25px;
         }
 
-        .booking-card label {
-            font-size: 14px
+        label {
+            display: block;
+            font-size: 14px;
+            margin-top: 15px;
+            color: #555;
         }
 
-        .booking-card input,
-        .booking-card textarea {
+        input,
+        textarea {
             width: 100%;
-            padding: 8px;
-            margin: 6px 0 12px;
-            border: 1px solid #ccc;
-            border-radius: 4px
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            outline: none;
         }
 
         .btn-submit {
             width: 100%;
-            padding: 10px;
-            background: #32cd32;
+            padding: 12px;
+            background: #2ecc71;
             border: none;
-            color: #fff;
-            font-size: 15px;
+            color: white;
+            font-size: 16px;
             cursor: pointer;
-            margin-bottom: 8px
+            margin-top: 25px;
+            border-radius: 8px;
+            font-weight: 500;
         }
 
-        .btn-cancel {
+        .btn-back {
             width: 100%;
-            padding: 10px;
-            background: #777;
+            padding: 12px;
+            background: #7f8c8d;
             border: none;
-            color: #fff;
-            font-size: 15px;
-            cursor: pointer
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+            border-radius: 8px;
         }
     </style>
 </head>
 
 <body>
-
-    <div class="page">
-
-        <div class="navbar">
-            <div class="nav-title">ระบบจองห้องประชุม</div>
-            <div class="nav-toggler" onclick="toggleMenu()">☰</div>
-        </div>
-
-        <div class="collapse" id="menu">
-            <div class="menu-content">
-                <a href="index.html">หน้าแรก</a>
-                <a href="H2.html">หน้าจอง</a>
-                <a href="h3.html">ประวัติการจอง</a>
-            </div>
-        </div>
-
-        <div class="booking-wrapper">
-            <div class="booking-card">
-                <h3>จอง ห้องประชุม Room <span id="roomNo"></span></h3>
-
-                <label>สถานะห้อง</label>
-                <input type="text" value="ว่าง" readonly>
-
-                <label>วัน / เดือน / ปี</label>
-                <input type="date" id="date">
-
-                <label>เวลาเริ่ม</label>
-                <input type="time" id="start">
-
-                <label>เวลาสิ้นสุด</label>
-                <input type="time" id="end">
-
-                <label>ชื่อ - นามสกุล</label>
-                <input type="text" id="name">
-
-                <label>เบอร์โทร</label>
-                <input type="text" id="phone">
-
-                <label>จำนวนผู้เข้าร่วม</label>
-                <input type="number" id="attendees" min="1">
-
-                <label>หมายเหตุ</label>
-                <textarea rows="3" id="note"></textarea>
-
-                <button class="btn-submit" onclick="confirmBooking()">ยืนยันการจอง</button>
-                <button class="btn-cancel" onclick="history.back()">ย้อนกลับ</button>
-            </div>
-        </div>
-
+    <div class="navbar">
+        <div class="nav-title">จองห้องประชุม</div>
+        <a href="H2.html" style="color: #333; text-decoration: none;"><i class="fa-solid fa-xmark"></i> ปิด</a>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <div class="booking-wrapper">
+        <div class="booking-card">
+            <h3>Room <span id="roomNoDisplay"></span></h3>
+
+            <label>วัน / เดือน / ปี</label>
+            <input type="date" id="date">
+
+            <label>เวลาเริ่ม</label>
+            <input type="time" id="start">
+
+            <label>เวลาสิ้นสุด</label>
+            <input type="time" id="end">
+
+            <label>ชื่อ - นามสกุล</label>
+            <input type="text" id="name">
+
+            <label>เบอร์โทร</label>
+            <input type="text" id="phone">
+
+            <label>จำนวนผู้เข้าร่วม</label>
+            <input type="number" id="attendees" min="1">
+
+            <label>หมายเหตุ</label>
+            <textarea id="note" rows="3"></textarea>
+
+            <button class="btn-submit" onclick="confirmBooking()">ยืนยันการจอง</button>
+            <button class="btn-back" onclick="history.back()">ย้อนกลับ</button>
+        </div>
+    </div>
 
     <script>
+        const params = new URLSearchParams(window.location.search);
+        const roomNo = params.get("room");
+        document.getElementById("roomNoDisplay").innerText = roomNo;
 
-        const params = new URLSearchParams(window.location.search)
-        const roomNo = params.get("room")
-        document.getElementById("roomNo").innerText = roomNo
-
-        const roomCapacity = {
-            "101": 35,
-            "102": 9,
-            "103": 16,
-            "104": 12,
-            "105": 10
-        }
+        const roomCapacity = { "101": 35, "102": 9, "103": 16, "104": 12, "105": 10 };
 
         function confirmBooking() {
-
-            const date = document.getElementById("date").value
-            const start = document.getElementById("start").value
-            const end = document.getElementById("end").value
-            const name = document.getElementById("name").value
-            const phone = document.getElementById("phone").value
-            const note = document.getElementById("note").value
-            const attendees = parseInt(document.getElementById("attendees").value)
+            const date = document.getElementById("date").value;
+            const start = document.getElementById("start").value;
+            const end = document.getElementById("end").value;
+            const name = document.getElementById("name").value;
+            const phone = document.getElementById("phone").value;
+            const note = document.getElementById("note").value;
+            const attendees = parseInt(document.getElementById("attendees").value);
 
             if (!date || !start || !end || !name || !attendees) {
-                Swal.fire("กรอกข้อมูลให้ครบก่อน", "", "warning")
-                return
+                Swal.fire("กรอกข้อมูลให้ครบ", "", "warning"); return;
             }
-
             if (start >= end) {
-                Swal.fire("เวลาไม่ถูกต้อง", "เวลาเริ่มต้องน้อยกว่าเวลาสิ้นสุด", "error")
-                return
+                Swal.fire("เวลาไม่ถูกต้อง", "เวลาเริ่มต้องน้อยกว่าเวลาสิ้นสุด", "error"); return;
             }
-
             if (attendees > roomCapacity[roomNo]) {
-                Swal.fire("จำนวนคนเกินความจุห้อง",
-                    `ห้องนี้รองรับได้สูงสุด ${roomCapacity[roomNo]} คน`,
-                    "error")
-                return
+                Swal.fire("คนเกินความจุ", `รับได้สูงสุด ${roomCapacity[roomNo]} คน`, "error"); return;
             }
 
-            let bookings = JSON.parse(localStorage.getItem("bookings")) || []
+            let bookings = JSON.parse(localStorage.getItem("bookings")) || [];
 
-            const duplicate = bookings.find(b =>
-                b.room === roomNo &&
-                b.date === date &&
-                (
-                    (start >= b.start && start < b.end) ||
-                    (end > b.start && end <= b.end) ||
-                    (start <= b.start && end >= b.end)
-                )
-            )
+            const hasConflict = bookings.some(b =>
+                b.room === roomNo && b.date === date &&
+                ((start >= b.start && start < b.end) || (end > b.start && end <= b.end) || (start <= b.start && end >= b.end))
+            );
 
-            if (duplicate) {
-                Swal.fire("ช่วงเวลานี้ถูกจองแล้ว", "กรุณาเลือกเวลาใหม่", "error")
-                return
+            if (hasConflict) {
+                Swal.fire("ช่วงเวลานี้ถูกจองแล้ว", "กรุณาเลือกช่วงเวลาอื่นในวันเดียวกัน", "error");
+                return;
             }
 
             Swal.fire({
@@ -255,38 +174,25 @@
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonText: 'ยืนยัน',
-                cancelButtonText: 'ยกเลิก'
+                confirmButtonColor: '#2ecc71'
             }).then((result) => {
-
                 if (result.isConfirmed) {
-
-                    bookings.push({
-                        room: roomNo,
-                        date,
-                        start,
-                        end,
-                        name,
-                        phone,
-                        note,
-                        attendees
-                    })
-
-                    localStorage.setItem("bookings", JSON.stringify(bookings))
+                    bookings.push({ room: roomNo, date, start, end, name, phone, note, attendees });
+                    localStorage.setItem("bookings", JSON.stringify(bookings));
 
                     Swal.fire({
                         title: 'จองสำเร็จ!',
+                        text: 'กำลังพาท่านไปหน้าชำระเงิน...',
                         icon: 'success',
                         timer: 1500,
                         showConfirmButton: false
                     }).then(() => {
-                        window.location.href = "H2.html"
-                    })
+                        window.location.href = "payment.html";
+                    });
                 }
-            })
+            });
         }
-
     </script>
-
 </body>
 
 </html>

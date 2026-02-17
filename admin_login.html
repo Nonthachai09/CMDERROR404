@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="th">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>เข้าสู่ระบบ | ระบบจองห้องประชุม</title>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         * {
             margin: 0;
@@ -33,11 +31,11 @@
         .login-card {
             display: flex;
             width: 800px;
-            height: 480px;
+            height: 480px; 
             background-color: #fff;
             border-radius: 30px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
         .left-panel {
@@ -167,18 +165,15 @@
                 height: auto;
                 margin-bottom: 20px;
             }
-
             .left-panel {
                 padding: 40px;
             }
-
             .right-panel {
                 padding: 40px 30px;
             }
         }
     </style>
 </head>
-
 <body>
 
     <h1>ระบบจองห้องประชุม</h1>
@@ -186,21 +181,18 @@
     <div class="login-card">
         <div class="left-panel">
             <div class="user-icon">
-                <svg viewBox="0 0 24 24">
-                    <path
-                        d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-                </svg>
+                <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
             </div>
             <h2>Welcome</h2>
         </div>
 
         <div class="right-panel">
             <h2>Sign in</h2>
-
+            
             <div class="input-group">
                 <input type="email" id="email" placeholder="Email" required>
             </div>
-
+            
             <div class="input-group">
                 <input type="password" id="password" placeholder="Password" required>
             </div>
@@ -209,44 +201,28 @@
 
             <div class="signup-text">
                 <div class="signup-container">
-                    <span class="label-text">Don't have an account ?</span>
-                    <a href="signup.html" class="signup-link">Sign up</a>
+                    <span class="label-text">You Don't Admin ?</span>
+                    <a href="login.html" class="signup-link">Sign In</a>
                 </div>
-            </div>
-
-            <div class="admin-link">
-                <a href="admin_login.html">Admin Login</a>
             </div>
         </div>
     </div>
 
     <script>
-        
         function handleLogin() {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
-            if (email === "" || password === "") {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'กรุณากรอกข้อมูล',
-                    text: 'โปรดกรอก Email และ Password ให้ครบถ้วน',
-                    confirmButtonColor: '#000'
-                });
+            if(email === "" || password === "") {
+                alert("กรุณากรอกข้อมูลให้ครบถ้วน");
             } else {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'เข้าสู่ระบบสำเร็จ',
-                    text: 'กำลังพาท่านไปหน้าหลัก...',
-                    showConfirmButton: false,
-                    timer: 1500
-                }).then(() => {
-                    window.location.href = "index.html";
-                });
+                console.log("Logging in with:", email);
+                alert("เข้าสู่ระบบสำเร็จ!");
+                
+                window.location.href = "admin.html";
             }
         }
     </script>
 
 </body>
-
 </html>

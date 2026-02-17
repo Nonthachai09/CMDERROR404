@@ -1,66 +1,228 @@
 <!DOCTYPE html>
 <html lang="th">
-
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home | ระบบจองห้องประชุม</title>
-    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-</head>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Kanit', sans-serif;
+        }
 
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            background-color: #ffffff;
+            border-bottom: 1px solid #eee;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-title {
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        .nav-right-icons {
+            display: flex;
+            align-items: center;
+            gap: 20px; 
+        }
+
+        .nav-item-icon {
+            font-size: 1.4rem;
+            cursor: pointer;
+            color: #333;
+            transition: 0.3s;
+        }
+
+        .nav-item-icon:hover {
+            color: #666;
+        }
+
+        .collapse {
+            display: none;
+            background: white;
+            width: 100%;
+            border-bottom: 1px solid #eee;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .collapse.show {
+            display: block;
+        }
+
+        .menu-content {
+            display: flex;
+            flex-direction: column;
+            padding: 10px 5%;
+        }
+
+        .menu-content a {
+            padding: 12px 0;
+            text-decoration: none;
+            color: #333;
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+        .menu-content a:last-child {
+            border-bottom: none;
+        }
+
+        .hero {
+            height: 300px;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                        url('https://images.unsplash.com/photo-1431540015161-0bf868a2d407?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        .content {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        h2 { margin-bottom: 15px; }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 500;
+            margin-bottom: 15px;
+            color: #000;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .feature {
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .footer {
+            background: #1a1a1a;
+            color: white;
+            padding: 50px 5% 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        .footer h4 { margin-bottom: 15px; color: #fff; }
+        .footer p, .footer li { font-size: 0.9rem; color: #ccc; list-style: none; margin-bottom: 8px; }
+
+        @media (max-width: 600px) {
+            .nav-title { font-size: 1rem; }
+        }
+    </style>
+</head>
 <body>
 
     <div class="page">
-
         <div class="navbar">
             <div class="nav-title">ระบบจองห้องประชุม</div>
-            <div class="nav-icons">
-                <div class="nav-toggler" onclick="toggleMenu()">
+            
+            <div class="nav-right-icons">
+                <div class="nav-item-icon" onclick="toggleMenu()">
                     <i class="fa-solid fa-list-ul"></i>
                 </div>
-                <div class="nav-profile">
+                <a href="login.html" class="nav-item-icon">
                     <i class="fa-regular fa-circle-user"></i>
-                </div>
+                </a>
             </div>
         </div>
 
-        <div class="hero"></div>
+        <div class="collapse" id="menu">
+            <div class="menu-content">
+                <a href="index.html"><i class="fa-solid fa-house"></i> หน้าแรก</a>
+                <a href="H2.html"><i class="fa-solid fa-calendar-check"></i> หน้าจอง</a>
+                <a href="h3.html"><i class="fa-solid fa-clock-rotate-left"></i> ประวัติการจอง</a>
+            </div>
+        </div>
+
+        <div class="hero">
+            <h1>Workspace Solutions</h1>
+        </div>
 
         <div class="content">
             <h2>Welcome</h2>
-            <p>
-                ระบบจองห้องประชุมสำหรับองค์กร และจัดการตารางการประชุมได้อย่างสะดวกและรวดเร็ว
-            </p>
+            <p>ระบบจองห้องประชุมสำหรับองค์กร และจัดการตารางการประชุมได้อย่างสะดวกและรวดเร็ว</p>
 
             <div class="gallery">
                 <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4">
+                    <img src="https://images.unsplash.com/photo-1517502884422-41eaead166d4?auto=format&fit=crop&w=500&q=80">
                 </div>
                 <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e">
+                    <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=500&q=80">
                 </div>
                 <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36">
+                    <img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=500&q=80">
                 </div>
             </div>
 
             <div class="section">
-                <div class="section-title">ระบบจองห้องประชุม</div>
+                <div class="section-title">ระบบจัดการการประชุม</div>
                 <p>ช่วยให้คุณสามารถจัดการการประชุมได้อย่างเป็นระบบ ลดความซ้ำซ้อน และเพิ่มประสิทธิภาพในการทำงาน</p>
             </div>
 
             <div class="section">
                 <div class="section-title">Features</div>
-
                 <div class="features">
-                    <div class="feature">Room Booking</div>
-                    <div class="feature">Room Status</div>
-                    <div class="feature">History Booking</div>
-                    <div class="feature">User Management</div>
-                    <div class="feature">Real-time Update</div>
-                    <div class="feature">Calendar View</div>
-                    <div class="feature">Admin Control</div>
-                    <div class="feature">Responsive Design</div>
+                    <div class="feature"><i class="fa-solid fa-check"></i> Room Booking</div>
+                    <div class="feature"><i class="fa-solid fa-info-circle"></i> Room Status</div>
+                    <div class="feature"><i class="fa-solid fa-history"></i> History</div>
+                    <div class="feature"><i class="fa-solid fa-users-gear"></i> Management</div>
                 </div>
             </div>
         </div>
@@ -70,7 +232,6 @@
                 <h4>ระบบจองห้องประชุม</h4>
                 <p>© 2026 All rights reserved</p>
             </div>
-
             <div>
                 <h4>Menu</h4>
                 <ul>
@@ -79,24 +240,24 @@
                     <li>History</li>
                 </ul>
             </div>
-
             <div>
                 <h4>Contact</h4>
-                <ul>
-                    <li>Email: admin@meeting.com</li>
-                    <li>Tel: 02-xxx-xxxx</li>
-                </ul>
+                <p>Email: admin@meeting.com</p>
+                <p>Tel: 02-xxx-xxxx</p>
             </div>
         </div>
-
     </div>
 
     <script>
         function toggleMenu() {
-            document.getElementById("menu").classList.toggle("show");
+            const menu = document.getElementById("menu");
+            if (menu.classList.contains("show")) {
+                menu.classList.remove("show");
+            } else {
+                menu.classList.add("show");
+            }
         }
     </script>
 
 </body>
-
 </html>

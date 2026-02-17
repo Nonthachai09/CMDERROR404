@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up | ระบบจองห้องประชุม</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Kanit', sans-serif;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .header-title {
+            font-size: 2rem;
+            font-weight: 500;
+            margin-bottom: 40px;
+            color: #000;
+        }
+
+        .register-card {
+            display: flex;
+            width: 850px;
+            min-height: 550px;
+            background-color: #fff;
+            border-radius: 40px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .left-panel {
+            flex: 1;
+            background-color: #121212;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            position: relative;
+            z-index: 2;
+        }
+
+        .left-panel::after {
+            content: "";
+            position: absolute;
+            right: -40px;
+            top: 0;
+            width: 80px;
+            height: 100%;
+            background-image: radial-gradient(circle at 100% 50%, transparent 40px, #121212 41px);
+            background-size: 80px 80px;
+            z-index: 1;
+        }
+
+        .user-icon {
+            width: 110px;
+            height: 110px;
+            border: 5px solid white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+
+        .user-icon svg {
+            width: 65px;
+            fill: white;
+        }
+
+        .left-panel h2 {
+            font-size: 2.8rem;
+            font-weight: 500;
+        }
+
+        .right-panel {
+            flex: 1.1;
+            padding: 50px 60px 50px 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background-color: #fafafa;
+        }
+
+        .right-panel h2 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: #000;
+        }
+
+        .input-group {
+            margin-bottom: 12px;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            outline: none;
+            background-color: #fff;
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: #bbb;
+        }
+
+        textarea {
+            resize: none;
+            height: 100px;
+        }
+
+        .signup-btn-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 15px;
+        }
+
+        .signup-btn {
+            background-color: #000;
+            color: white;
+            border: none;
+            padding: 10px 40px;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .signup-btn:hover {
+            background-color: #333;
+        }
+
+        @media (max-width: 900px) {
+            .register-card {
+                flex-direction: column;
+                width: 95%;
+                border-radius: 20px;
+            }
+
+            .left-panel {
+                padding: 40px;
+            }
+
+            .left-panel::after {
+                display: none;
+            }
+
+            .right-panel {
+                padding: 40px 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1 class="header-title">ระบบจองห้องประชุม</h1>
+
+    <div class="register-card">
+        <div class="left-panel">
+            <div class="user-icon">
+                <svg viewBox="0 0 24 24">
+                    <path
+                        d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                </svg>
+            </div>
+            <h2>Welcome</h2>
+        </div>
+
+        <form class="right-panel" id="signupForm">
+            <h2>Sign Up</h2>
+
+            <div class="input-group">
+                <input type="text" id="username" placeholder="Username" required>
+            </div>
+
+            <div class="input-group">
+                <input type="email" id="email" placeholder="Email" required>
+            </div>
+
+            <div class="input-group">
+                <input type="tel" id="phone" placeholder="telephone" required>
+            </div>
+
+            <div class="input-group">
+                <textarea id="address" placeholder="Address" required></textarea>
+            </div>
+
+            <div class="input-group">
+                <input type="password" id="password" placeholder="Password" required>
+            </div>
+
+            <div class="signup-btn-container">
+                <button type="submit" class="signup-btn">sign up</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('signupForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const username = document.getElementById('username').value;
+
+            Swal.fire({
+                title: 'ยืนยันการสมัครสมาชิก?',
+                text: `คุณต้องการสมัครใช้งานในชื่อ ${username} ใช่หรือไม่?`,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#000',
+                cancelButtonColor: '#888',
+                confirmButtonText: 'ยืนยัน',
+                cancelButtonText: 'ยกเลิก',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'ลงทะเบียนสำเร็จ!',
+                        text: 'กรุณาเข้าสู่ระบบเพื่อใช้งาน',
+                        showConfirmButton: false,
+                        timer: 2000
+                    }).then(() => {
+                        window.location.href = 'login.html';
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

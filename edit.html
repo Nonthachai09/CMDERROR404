@@ -3,339 +3,352 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>แก้ไขการจองห้องประชุม</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แก้ไขการจอง | ระบบจองห้องประชุม</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: Arial, sans-serif
+            font-family: 'Kanit', sans-serif;
         }
 
         body {
-            min-height: 100vh;
-            background: #eee
-        }
-
-        .page {
-            max-width: 1920px;
-            margin: auto;
-            background: #fff;
+            background-color: #eee;
             min-height: 100vh;
             display: flex;
-            flex-direction: column
+            flex-direction: column;
         }
 
         .navbar {
-            height: 60px;
-            background: #000;
-            color: #fff;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            padding: 0 30px
+            padding: 15px 5%;
+            background-color: #fff;
+            color: #000;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
-        .nav-title {
-            font-size: 18px;
-            font-weight: bold
-        }
-
-        .nav-toggler {
-            margin-left: auto;
-            font-size: 26px;
-            cursor: pointer
-        }
-
-        .collapse {
-            max-height: 0;
-            overflow: hidden;
-            background: #111;
-            transition: max-height .4s ease
-        }
-
-        .collapse.show {
-            max-height: 200px
-        }
-
-        .menu-content {
-            display: flex;
-            flex-direction: column
-        }
-
-        .menu-content a {
-            padding: 16px 30px;
-            color: #fff;
+        .nav-item-icon {
+            font-size: 1.3rem;
+            color: #000;
+            cursor: pointer;
             text-decoration: none;
-            border-bottom: 1px solid #333
         }
 
-        .menu-content a:hover {
-            background: #222
-        }
-
-        .booking-wrapper {
+        .edit-wrapper {
             flex: 1;
+            padding: 40px 20px;
             display: flex;
-            justify-content: center;
-            padding: 40px;
-            background: #f2f2f2
+            flex-direction: column;
+            align-items: center;
         }
 
-        .booking-card {
-            width: 380px;
-            background: #fff;
-            border-radius: 8px;
-            padding: 25px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, .15)
-        }
-
-        .btn-back {
+        .btn-back-top {
+            align-self: flex-start;
+            margin: 0 auto 20px calc(50% - 225px);
             background: #777;
-            color: #fff;
+            color: white;
             border: none;
-            padding: 8px 14px;
-            font-size: 14px;
+            padding: 8px 15px;
             border-radius: 4px;
             cursor: pointer;
-            margin-bottom: 20px
+        }
+
+        .edit-card {
+            width: 100%;
+            max-width: 450px;
+            background: #fff;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .ref-code {
+            color: #ff0000;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .room-title {
+            margin-bottom: 20px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-group {
+            text-align: left;
+            margin-bottom: 15px;
         }
 
         label {
-            font-size: 14px
+            font-size: 0.85rem;
+            color: #666;
+            display: block;
+            margin-bottom: 5px;
         }
 
         input,
         textarea {
             width: 100%;
-            padding: 8px;
-            margin: 6px 0 12px;
+            padding: 10px;
             border: 1px solid #ccc;
-            border-radius: 4px
+            border-radius: 6px;
+            outline: none;
+            font-size: 0.95rem;
         }
 
-        input[readonly] {
-            background: #f1f1f1
-        }
-
-        .btn-submit {
+        .btn-save {
             width: 100%;
-            padding: 10px;
-            background: #32cd32;
+            padding: 12px;
+            background: #2ecc71;
+            color: white;
             border: none;
-            color: #fff;
-            font-size: 15px;
+            border-radius: 8px;
             cursor: pointer;
-            margin-bottom: 8px;
-            border-radius: 4px
+            font-size: 1rem;
+            margin-top: 10px;
+            font-weight: 500;
+            transition: 0.3s;
         }
 
-        .btn-cancel {
+        .btn-save:hover {
+            background: #27ae60;
+        }
+
+        .btn-cancel-booking {
             width: 100%;
-            padding: 10px;
-            background: #e74c3c;
+            padding: 12px;
+            background: #ff0000;
+            color: white;
             border: none;
-            color: #fff;
-            font-size: 15px;
+            border-radius: 8px;
             cursor: pointer;
-            border-radius: 4px
+            font-size: 1rem;
+            margin-top: 10px;
+            font-weight: 500;
+        }
+
+        .swal2-title-custom {
+            background: #000 !important;
+            color: #fff !important;
+            width: 100%;
+            padding: 20px 0 !important;
+            margin: 0 !important;
+            font-size: 1.3rem !important;
+            font-weight: 400 !important;
+        }
+
+        .swal2-popup-custom {
+            padding: 0 !important;
+            border-radius: 15px !important;
+            overflow: hidden !important;
+            width: 350px !important;
+        }
+
+        .swal2-actions-custom {
+            flex-direction: column !important;
+            gap: 10px !important;
+            padding: 20px !important;
+            width: 100% !important;
+        }
+
+        .swal2-confirm-red {
+            background-color: #ff0000 !important;
+            width: 100% !important;
+            padding: 12px !important;
+            border-radius: 8px !important;
+            font-size: 1rem !important;
+            margin: 0 !important;
+        }
+
+        .swal2-cancel-grey {
+            background-color: #999 !important;
+            width: 100% !important;
+            padding: 12px !important;
+            border-radius: 8px !important;
+            font-size: 1rem !important;
+            margin: 0 !important;
+        }
+
+        .swal2-confirm-green {
+            background-color: #2ecc71 !important;
+            width: 100% !important;
+            padding: 12px !important;
+            border-radius: 8px !important;
+            font-size: 1rem !important;
+            margin: 0 !important;
+            color: white !important;
+            cursor: pointer;
+        }
+
+        @media (max-width: 500px) {
+            .btn-back-top {
+                margin-left: 0;
+            }
         }
     </style>
 </head>
 
 <body>
-
-    <div class="page">
-
-        <div class="navbar">
-            <div class="nav-title">ระบบจองห้องประชุม</div>
-            <div class="nav-toggler" onclick="toggleMenu()">☰</div>
+    <nav class="navbar">
+        <div class="nav-title">ระบบจองห้องประชุม</div>
+        <div class="nav-right-icons">
+            <i class="fa-solid fa-list-ul nav-item-icon"></i>
+            <i class="fa-regular fa-circle-user nav-item-icon"></i>
         </div>
+    </nav>
 
-        <div class="collapse" id="menu">
-            <div class="menu-content">
-                <a href="index.html">หน้าแรก</a>
-                <a href="booking.html">หน้าจอง</a>
-                <a href="history.html">ประวัติการจอง</a>
+    <div class="edit-wrapper">
+        <button class="btn-back-top" onclick="history.back()"><i class="fa-solid fa-arrow-left"></i> ย้อนกลับ</button>
+
+        <div class="edit-card">
+            <div class="ref-code">รหัสอ้างอิง AB10101110</div>
+            <h3 class="room-title">Room <span id="roomNo"></span></h3>
+
+            <div class="form-group">
+                <label>วัน เดือน ปี</label>
+                <input type="date" id="editDate">
             </div>
-        </div>
-
-        <div class="booking-wrapper">
-
-            <div>
-                <button class="btn-back" onclick="history.back()">ย้อนกลับ</button>
-
-                <div class="booking-card">
-                    <h3>รหัสอ้างอิง <span>AB10101110</span></h3>
-                    <h3>Room <span id="roomNo">102</span></h3>
-
-                    <label>สถานะห้อง</label>
-                    <input type="text" value="ว่าง" readonly>
-
-                    <label>วัน / เดือน / ปี</label>
-                    <input type="date">
-
-                    <label>เวลาเริ่ม</label>
-                    <input type="time">
-
-                    <label>เวลาสิ้นสุด</label>
-                    <input type="time">
-
-                    <label>ชื่อ - นามสกุล</label>
-                    <input type="text">
-
-                    <label>เบอร์โทร</label>
-                    <input type="text">
-
-                    <label>จำนวนผู้เข้าร่วม</label>
-                    <input type="number" id="attendees" min="1">
-
-                    <label>หมายเหตุ</label>
-                    <textarea rows="3"></textarea>
-
-                    <button class="btn-submit" onclick="editBooking()">แก้ไขการจอง</button>
-                    <button class="btn-cancel" onclick="cancelBooking()">ยกเลิกการจอง</button>
-                </div>
+            <div class="form-group">
+                <label>เวลาเริ่ม</label>
+                <input type="time" id="editStart">
+            </div>
+            <div class="form-group">
+                <label>เวลาสิ้นสุด</label>
+                <input type="time" id="editEnd">
+            </div>
+            <div class="form-group">
+                <label>ชื่อ - นามสกุล</label>
+                <input type="text" id="editName">
+            </div>
+            <div class="form-group">
+                <label>เบอร์โทร</label>
+                <input type="text" id="editPhone">
+            </div>
+            <div class="form-group">
+                <label>จำนวนผู้เข้าร่วม (สูงสุด <span id="maxCapacity"></span> คน)</label>
+                <input type="number" id="editAttendees">
+            </div>
+            <div class="form-group">
+                <label>หมายเหตุ</label>
+                <textarea id="editNote" rows="3"></textarea>
             </div>
 
+            <button class="btn-save" onclick="askConfirmUpdate()">บันทึกการแก้ไข</button>
+            <button class="btn-cancel-booking" onclick="confirmCancelPopup()">ยกเลิกการจอง</button>
         </div>
-
     </div>
 
-
-
     <script>
+        const roomCapacity = { "101": 35, "102": 9, "103": 16, "104": 12, "105": 10 };
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get("id");
+        let bookings = JSON.parse(localStorage.getItem("bookings")) || [];
+        let b = bookings[id];
 
-        const roomCapacity = {
-            "101": 35,
-            "102": 9,
-            "103": 16,
-            "104": 12,
-            "105": 10
+        if (b) {
+            document.getElementById("roomNo").innerText = b.room;
+            document.getElementById("maxCapacity").innerText = roomCapacity[b.room];
+            document.getElementById("editDate").value = b.date;
+            document.getElementById("editStart").value = b.start;
+            document.getElementById("editEnd").value = b.end;
+            document.getElementById("editName").value = b.name;
+            document.getElementById("editPhone").value = b.phone || "";
+            document.getElementById("editAttendees").value = b.attendees || "";
+            document.getElementById("editNote").value = b.note || "";
         }
 
-        function toggleMenu() {
-            document.getElementById("menu").classList.toggle("show")
-        }
+        function askConfirmUpdate() {
+            const attendees = parseInt(document.getElementById("editAttendees").value);
+            const max = roomCapacity[b.room];
 
-        const params = new URLSearchParams(window.location.search)
-        const id = params.get("id")
-
-        let bookings = JSON.parse(localStorage.getItem("bookings")) || []
-        let booking = bookings[id]
-
-        if (!booking) {
-            window.location.href = "h3.html"
-        }
-
-        document.getElementById("roomNo").innerText = booking.room
-
-        const inputs = document.querySelectorAll("input, textarea")
-        inputs[1].value = booking.date
-        inputs[2].value = booking.start
-        inputs[3].value = booking.end
-        inputs[4].value = booking.name
-        inputs[5].value = booking.phone
-        inputs[6].value = booking.note
-
-        document.getElementById("attendees").value = booking.attendees || ""
-
-        function editBooking() {
-
-            const attendees = parseInt(document.getElementById("attendees").value)
-            if (attendees > roomCapacity[booking.room]) {
-                Swal.fire("จำนวนคนเกินความจุห้อง",
-                    `ห้องนี้รองรับได้สูงสุด ${roomCapacity[booking.room]} คน`,
-                    "error")
-                return
-            }
-
-            const date = inputs[1].value
-            const start = inputs[2].value
-            const end = inputs[3].value
-            const name = inputs[4].value
-            const phone = inputs[5].value
-            const note = inputs[6].value
-
-            if (!date || !start || !end || !name) {
-                Swal.fire("กรอกข้อมูลให้ครบก่อน", "", "warning")
-                return
-            }
-
-            if (start >= end) {
-                Swal.fire("เวลาไม่ถูกต้อง", "เวลาเริ่มต้องน้อยกว่าเวลาสิ้นสุด", "error")
-                return
-            }
-
-            const duplicate = bookings.find((b, i) =>
-                i != id &&
-                b.room === booking.room &&
-                b.date === date &&
-                (
-                    (start >= b.start && start < b.end) ||
-                    (end > b.start && end <= b.end) ||
-                    (start <= b.start && end >= b.end)
-                )
-            )
-
-            if (duplicate) {
-                Swal.fire("ช่วงเวลานี้ถูกจองแล้ว", "กรุณาเลือกเวลาใหม่", "error")
-                return
+            if (attendees > max) {
+                Swal.fire({ icon: 'error', title: 'จำนวนคนเกินกำหนด', text: `ห้องนี้รองรับได้สูงสุด ${max} คน` });
+                return;
             }
 
             Swal.fire({
-                title: "ยืนยันการแก้ไข?",
-                icon: "question",
+                title: 'ยืนยันการแก้ไขข้อมูล?',
+                text: "ข้อมูลการจองของคุณจะถูกอัปเดตใหม่",
+                icon: 'question',
                 showCancelButton: true,
-                confirmButtonText: "บันทึก"
+                confirmButtonColor: '#2ecc71',
+                cancelButtonColor: '#777',
+                confirmButtonText: 'ใช่, บันทึกเลย',
+                cancelButtonText: 'ยกเลิก'
             }).then((result) => {
-
                 if (result.isConfirmed) {
-
-                    bookings[id] = {
-                        room: booking.room,
-                        date,
-                        start,
-                        end,
-                        name,
-                        phone,
-                        note,
-                        attendees
-                    }
-
-                    localStorage.setItem("bookings", JSON.stringify(bookings))
-
-                    Swal.fire("แก้ไขสำเร็จ", "", "success")
-                        .then(() => window.location.href = "h3.html")
+                    performUpdate();
                 }
-            })
+            });
         }
 
-        function cancelBooking() {
+        function performUpdate() {
+            const date = document.getElementById("editDate").value;
+            const start = document.getElementById("editStart").value;
+            const end = document.getElementById("editEnd").value;
 
+            const conflict = bookings.find((item, i) =>
+                i != id && item.room === b.room && item.date === date &&
+                ((start >= item.start && start < item.end) || (end > item.start && end <= item.end))
+            );
+
+            if (conflict) {
+                Swal.fire({ icon: 'error', title: 'ช่วงเวลาไม่ว่าง', text: 'ห้องนี้มีการจองแล้วในช่วงเวลาดังกล่าว' });
+                return;
+            }
+
+            bookings[id] = {
+                ...b,
+                date, start, end,
+                name: document.getElementById("editName").value,
+                phone: document.getElementById("editPhone").value,
+                attendees: document.getElementById("editAttendees").value,
+                note: document.getElementById("editNote").value
+            };
+            localStorage.setItem("bookings", JSON.stringify(bookings));
+
+            Swal.fire({ icon: 'success', title: 'แก้ไขสำเร็จ', showConfirmButton: false, timer: 1500 })
+                .then(() => location.href = "h3.html");
+        }
+
+        function confirmCancelPopup() {
             Swal.fire({
-                title: "ยืนยันการยกเลิก?",
-                icon: "warning",
+                title: 'ยืนยันการยกเลิก?',
+                text: "คุณต้องการยกเลิกรายการจองนี้ใช่หรือไม่? ข้อมูลจะถูกลบถาวร",
+                icon: 'warning', 
                 showCancelButton: true,
-                confirmButtonColor: "#e74c3c",
-                confirmButtonText: "ยกเลิกการจอง"
+                confirmButtonColor: '#e74c3c', 
+                cancelButtonColor: '#777',    
+                confirmButtonText: 'ใช่, ยกเลิกเลย',
+                cancelButtonText: 'ย้อนกลับ',
+                reverseButtons: true 
             }).then((result) => {
-
                 if (result.isConfirmed) {
+                    bookings.splice(id, 1);
+                    localStorage.setItem("bookings", JSON.stringify(bookings));
 
-                    bookings.splice(id, 1)
-                    localStorage.setItem("bookings", JSON.stringify(bookings))
-
-                    Swal.fire("ยกเลิกสำเร็จ", "", "success")
-                        .then(() => window.location.href = "h3.html")
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'ยกเลิกสำเร็จ',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        location.href = "h3.html";
+                    });
                 }
-            })
+            });
         }
-
     </script>
-
 </body>
 
 </html>
