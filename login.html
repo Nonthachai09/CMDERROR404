@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบจองห้องประชุม</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Kanit', sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        /* Container หลัก */
+        .login-card {
+            display: flex;
+            width: 800px;
+            height: 450px;
+            background-color: #fff;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* ฝั่งซ้าย (สีดำ) */
+        .left-panel {
+            flex: 1;
+            background-color: #121212;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+        }
+
+        .user-icon {
+            width: 100px;
+            height: 100px;
+            border: 4px solid white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .user-icon svg {
+            width: 60px;
+            fill: white;
+        }
+
+        .left-panel h2 {
+            font-size: 2.5rem;
+            font-weight: 600;
+        }
+
+        /* ฝั่งขวา (ฟอร์ม) */
+        .right-panel {
+            flex: 1.2;
+            padding: 40px 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background-color: #fafafa;
+        }
+
+        .right-panel h2 {
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            color: #000;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        input::placeholder {
+            color: #bbb;
+        }
+
+        .login-btn {
+            background-color: #000;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+
+        .login-btn:hover {
+            background-color: #333;
+        }
+
+        /* ส่วนท้าย (Sign up) */
+        .signup-text {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .signup-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .label-text {
+            background-color: #e0e0e0;
+            padding: 4px 12px;
+            border-radius: 15px;
+            color: #555;
+        }
+
+        .signup-link {
+            text-decoration: none;
+            color: #000;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Responsive สำหรับมือถือ */
+        @media (max-width: 768px) {
+            .login-card {
+                flex-direction: column;
+                width: 90%;
+                height: auto;
+            }
+            .left-panel {
+                padding: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>ระบบจองห้องประชุม</h1>
+
+    <div class="login-card">
+        <div class="left-panel">
+            <div class="user-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            </div>
+            <h2>Welcome</h2>
+        </div>
+
+        <div class="right-panel">
+            <h2>Sign in</h2>
+            
+            <div class="input-group">
+                <input type="email" id="email" placeholder="Email">
+            </div>
+            
+            <div class="input-group">
+                <input type="password" id="password" placeholder="Password">
+            </div>
+
+            <button class="login-btn" onclick="handleLogin()">Login</button>
+
+            <div class="signup-text">
+                <div class="signup-container">
+                    <span class="label-text">Don't have an account ?</span>
+                    <a href="#" class="signup-link">Sign up</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function handleLogin() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            if(email === "" || password === "") {
+                alert("กรุณากรอกข้อมูลให้ครบถ้วน");
+            } else {
+                console.log("Logging in with:", email);
+                alert("กำลังเข้าสู่ระบบ...");
+            }
+        }
+    </script>
+
+</body>
+</html>
