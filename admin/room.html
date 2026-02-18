@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>จัดการห้องประชุม</title>
+  <style>
+    :root{
+      --BG:#0b0f14;
+      --BG2:#070a0f;
+      --WHITE:#fff;
+      --ACCENT:#2f6bff;
+      --ACCENT_D:#245cf2;
+      --TEXT:#0d1117;
+      --MUTED:#6b7280;
+      --LINE:#e5e7eb;
+      --CARD:#ffffff;
+      --PAGE:#f3f4f6;
+      --SIDEBAR_W:280px;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Leelawadee UI", Arial, sans-serif;
+      background:#1c1f24;
+    }
+
+    .APP{
+      min-height:100%;
+      display:flex;
+      justify-content:center;
+      padding:24px 18px;
+    }
+
+    .FRAME{
+      width:min(1200px, 100%);
+      min-height:720px;
+      display:flex;
+      border-radius:12px;
+      overflow:hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,.35);
+      border: 1px solid rgba(255,255,255,.06);
+      background:transparent;
+    }
+
+    .SIDEBAR{
+      width:var(--SIDEBAR_W);
+      background: linear-gradient(180deg, var(--BG) 0%, var(--BG2) 100%);
+      color:var(--WHITE);
+      padding:22px 18px;
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+    }
+
+    .BRAND{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      padding:2px 4px 10px 4px;
+    }
+    .BRAND .TITLE{
+      font-weight:900;
+      font-size:22px;
+      line-height:1.1;
+    }
+    .BRAND .SUB{
+      font-weight:900;
+      font-size:20px;
+      line-height:1.1;
+    }
+
+    .MENU{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      margin-top:6px;
+    }
+
+    .MENU_BTN{
+      width:100%;
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:12px 12px;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,.10);
+      background: transparent;
+      color: rgba(255,255,255,.92);
+      cursor:pointer;
+      transition: .18s ease;
+      font-size:14px;
+      text-decoration:none;
+      user-select:none;
+    }
+
+    .MENU_BTN:hover{
+      background: rgba(255,255,255,.06);
+      border-color: rgba(255,255,255,.16);
+    }
+
+    .MENU_BTN.ACTIVE{
+      background: rgba(47,107,255,.22);
+      border-color: rgba(47,107,255,.55);
+      color:#fff;
+      box-shadow: 0 10px 22px rgba(47,107,255,.16);
+    }
+
+    .ICONBOX{
+      width:30px;
+      height:30px;
+      border-radius:8px;
+      display:grid;
+      place-items:center;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+      flex: 0 0 auto;
+    }
+
+    .MENU_BTN.ACTIVE .ICONBOX{
+      background: rgba(47,107,255,.34);
+      border-color: rgba(47,107,255,.65);
+    }
+
+    .LABEL{
+      font-weight:700;
+      letter-spacing:.2px;
+    }
+
+    .SPACER{ flex:1; }
+
+    .LOGOUT{
+      width:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding:12px 14px;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.07);
+      color: rgba(255,255,255,.95);
+      cursor:pointer;
+      transition:.18s ease;
+      font-weight:800;
+      font-size:13px;
+    }
+    .LOGOUT:hover{
+      background: rgba(255,255,255,.10);
+      border-color: rgba(255,255,255,.20);
+    }
+
+    .MAIN{
+      flex:1;
+      background:var(--PAGE);
+      padding:22px 24px;
+    }
+
+    .TOP{
+      display:flex;
+      justify-content:flex-end;
+      align-items:center;
+      gap:10px;
+      margin-bottom:18px;
+    }
+
+    .SEARCH{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid var(--LINE);
+      background:#fff;
+      min-width: 360px;
+      box-shadow: 0 6px 18px rgba(0,0,0,.06);
+    }
+    .SEARCH input{
+      border:none;
+      outline:none;
+      width:100%;
+      font-size:14px;
+    }
+
+    .BTN_PRIMARY{
+      border:none;
+      outline:none;
+      cursor:pointer;
+      padding:10px 14px;
+      border-radius:12px;
+      background:var(--ACCENT);
+      color:#fff;
+      font-weight:900;
+      font-size:13px;
+      box-shadow: 0 10px 24px rgba(47,107,255,.22);
+      transition:.18s ease;
+      white-space:nowrap;
+    }
+    .BTN_PRIMARY:hover{
+      background:var(--ACCENT_D);
+      transform: translateY(-1px);
+    }
+
+    .LIST{
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+      padding-right:6px;
+    }
+
+    .CARD{
+      width: 100%;
+      background:var(--CARD);
+      border-radius:12px;
+      border:1px solid #e6e8ee;
+      box-shadow: 0 10px 26px rgba(0,0,0,.08);
+      overflow:hidden;
+      display:grid;
+      grid-template-columns: 300px 1fr;
+      min-height: 130px;
+    }
+
+    .IMG{
+      height:100%;
+      width:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .INFO{
+      padding:14px 16px;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+
+    .ROOM_TITLE{
+      font-weight:900;
+      font-size:16px;
+      letter-spacing:.2px;
+      color:#111827;
+    }
+
+    .META{
+      font-size:12px;
+      color:#111827;
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+      line-height:1.35;
+    }
+
+    .META b{ font-weight:900; }
+
+    .ROW_BOTTOM{
+      margin-top:auto;
+      display:flex;
+      justify-content:flex-end;
+      align-items:center;
+    }
+
+    .BTN_MANAGE{
+      border:none;
+      outline:none;
+      cursor:pointer;
+      padding:9px 16px;
+      border-radius:6px;
+      background:var(--ACCENT);
+      color:#fff;
+      font-weight:900;
+      font-size:12px;
+      transition:.18s ease;
+      min-width: 78px;
+    }
+    .BTN_MANAGE:hover{
+      background:var(--ACCENT_D);
+    }
+
+    @media (max-width: 980px){
+      .FRAME{ border-radius:14px; }
+      .SEARCH{ min-width: 220px; width: 100%; }
+      .TOP{ justify-content:stretch; }
+      .CARD{ grid-template-columns: 1fr; }
+      .IMG{ height: 180px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="APP">
+    <div class="FRAME">
+      <aside class="SIDEBAR">
+        <div class="BRAND">
+          <div class="TITLE">Admin System</div>
+          <div class="SUB">ระบบจองห้องประชุม</div>
+        </div>
+
+        <nav class="MENU" id="MENU">
+          <a class="MENU_BTN" href="admin.html" data-page="admin">
+            <span class="ICONBOX" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M4 6h16M4 12h16M4 18h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <span class="LABEL">ภาพรวมระบบ</span>
+          </a>
+
+          <a class="MENU_BTN" href="rooms.html" data-page="rooms">
+            <span class="ICONBOX" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M4 21V7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M9 21V11h6v10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <span class="LABEL">จัดการห้องประชุม</span>
+          </a>
+
+          <a class="MENU_BTN" href="bookings.html" data-page="bookings">
+            <span class="ICONBOX" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M7 3v3M17 3v3M4 8h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M6 12h4M6 16h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M4 8v13a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <span class="LABEL">จัดการการจอง</span>
+          </a>
+
+          <a class="MENU_BTN" href="users.html" data-page="users">
+            <span class="ICONBOX" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M20 21a8 8 0 0 0-16 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <span class="LABEL">จัดการผู้ใช้</span>
+          </a>
+        </nav>
+
+        <div class="SPACER"></div>
+
+        <button class="LOGOUT" id="LOGOUT" type="button">
+          <span aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M10 17l5-5-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M15 12H3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M21 4v16a2 2 0 0 1-2 2h-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </span>
+          Logout
+        </button>
+      </aside>
+
+      <main class="MAIN">
+        <div class="TOP">
+          <div class="SEARCH">
+            <span aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M21 21l-4.3-4.3" stroke="#111827" stroke-width="2" stroke-linecap="round"/>
+                <path d="M10.8 18a7.2 7.2 0 1 1 0-14.4 7.2 7.2 0 0 1 0 14.4Z" stroke="#111827" stroke-width="2"/>
+              </svg>
+            </span>
+            <input id="SEARCH_INPUT" type="text" placeholder="ค้นหา..." />
+          </div>
+          <button class="BTN_PRIMARY" id="SEARCH_BTN" type="button">ค้นหา</button>
+        </div>
+
+        <div class="LIST" id="ROOM_LIST"></div>
+      </main>
+    </div>
+  </div>
+
+  <script src="rooms.js"></script>
+</body>
+</html>
